@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# traccar user setup
+exists=false
+getent passwd traccar >/dev/null 2>&1 && exists=true
+
+if ! $exists; then
+    printf "Creating user traccar..."
+    useradd -b /var/lib/traccar -d /var/lib/traccar -U traccar && printf " OK\n" || printf "FAILED\n"
+fi
+
+printf "Fixing user rights..."
+chown -R traccar /var/lib/traccar /var/log/traccar && printf " OK\n" || printf "FAILED (1/2)\n"
+
+printf "Starting supervisor services...\n"
+supervisorctl reread
+supervisorctl update
+supervisorctl restart "traccar:*"

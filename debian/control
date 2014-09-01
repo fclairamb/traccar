@@ -1,0 +1,14 @@
+Source: traccar
+Section: net
+Priority: optional
+Maintainer: Florent Clairambault <florent@clairambault.fr>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.4
+Homepage: https://github.com/tananaev/traccar
+Vcs-Git: git@github.com:fclairamb/traccar.git
+Vcs-Browser: https://github.com/fclairamb/traccar
+
+Package: traccar
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, supervisor, java-common
+Description: Traccar package
