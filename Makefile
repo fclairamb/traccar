@@ -13,6 +13,11 @@ install: $(TRACKER_SERVER)
 	cp $(TRACKER_SERVER) $(DESTDIR)/usr/share/traccar
 	cp target/lib/* $(DESTDIR)/usr/share/traccar/lib
 
+	mkdir -p $(DESTDIR)/usr/bin
+	cp package/bin/* $(DESTDIR)/usr/bin
+	cp tools/test.sh $(DESTDIR)/usr/bin/traccar_test_trackers
+	chmod a+rx $(DESTDIR)/usr/bin/*
+
 	# Config
 	mkdir -p $(DESTDIR)/etc/traccar/
 	cp setup/linux/traccar.cfg $(DESTDIR)/etc/traccar/traccar.cfg
@@ -28,7 +33,7 @@ install: $(TRACKER_SERVER)
 	mkdir -p $(DESTDIR)/etc/supervisor/conf.d
 	cp package/supervisor.d/*.conf $(DESTDIR)/etc/supervisor/conf.d
 
-package: $(TRACKER_SERVER)
+package: $(TRACKER_SERVER) debian/*
 	dpkg-buildpackage -b -us -uc
 	mkdir -p dist/package
 	mv ../*.deb dist/package/

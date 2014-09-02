@@ -1,4 +1,4 @@
-
+#!/bin/sh
 # testing data:
 # ids - 123456789012345 (32), 123456789012 (1), 123456 (2)
 # time - 12:00 + X min (where X is protocol number)

@@ -42,6 +42,7 @@ import org.traccar.helper.Log;
 import org.traccar.http.WebServer;
 import org.traccar.model.DataManager;
 import org.traccar.model.DatabaseDataManager;
+import org.traccar.model.M2MPDataManager;
 import org.traccar.protocol.*;
 
 /**
@@ -99,7 +100,12 @@ public class ServerManager {
             Log.setupLogger(properties);
         }
 
-        dataManager = new DatabaseDataManager(properties);
+        if ( "m2mp".equals( properties.getProperty("database.family") ) ) {
+            dataManager = new M2MPDataManager(properties);
+        } else {
+            dataManager = new DatabaseDataManager(properties);
+        }
+
 
         initGeocoder(properties);
 

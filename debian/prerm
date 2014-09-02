@@ -1,0 +1,10 @@
+#!/bin/sh
+
+echo "Stopping traccar..."
+supervisorctl stop "traccar:*"
+
+if [ -x /usr/sbin/ufw ]; then
+  echo "Removing UFW rules..."
+  /usr/bin/traccar_ufw_setup disable
+fi
+
