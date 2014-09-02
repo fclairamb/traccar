@@ -4,14 +4,15 @@ TRACKER_SERVER=target/tracker-server.jar
 
 sources=$(shell find -name *.java)
 
-$(TRACKER_SERVER): $(sources)
+$(TRACKER_SERVER): $(sources) pom.xml
 	mvn verify
+	mvn dependency:copy-dependencies
 
 install: $(TRACKER_SERVER)
 	# Binaries
 	mkdir -p $(DESTDIR)/usr/share/traccar/lib
 	cp $(TRACKER_SERVER) $(DESTDIR)/usr/share/traccar
-	cp target/lib/* $(DESTDIR)/usr/share/traccar/lib
+	cp target/dependency/* $(DESTDIR)/usr/share/traccar/lib
 
 	mkdir -p $(DESTDIR)/usr/bin
 	cp package/bin/* $(DESTDIR)/usr/bin
