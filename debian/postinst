@@ -21,3 +21,4 @@ if [ -x /usr/sbin/ufw ]; then
   echo "Appling UFW rules..."
   /usr/bin/traccar_ufw_setup enable
 fi
+

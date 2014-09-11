@@ -1,3 +1,9 @@
+traccar (0.2.2) UNRELEASED; urgency=medium
+
+  * Simplified UFW rules.
+
+ -- Florent Clairambault <florent@xps>  Thu, 11 Sep 2014 02:16:10 +0200
+
 traccar (0.2.1) unstable; urgency=low
 
   * Fixed some depencencies issues.

@@ -40,9 +40,13 @@ package: $(TRACKER_SERVER) debian/*
 	mv ../*.deb dist/package/
 	rm ../*.changes
 
-test_package:
-	make package
+deploy-local: package
 	sudo dpkg -i dist/package/*.deb
+
+deploy-remote:
+	ls dist/package/*.deb || make package
+	rsync -avz dist/package/*.deb $(TARGET):/tmp/traccar.deb
+	ssh $(TARGET) dpkg -i /tmp/traccar.deb
 
 clean:
 	[ ! -d dist ] || rm -R dist
