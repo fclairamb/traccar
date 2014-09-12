@@ -180,6 +180,7 @@ public class ServerManager {
         initTrackboxServer("trackbox");
         initVisiontekServer("visiontek");
         initOrionServer("orion");
+        initRitiServer("riti");
         
         // Initialize web server
         if (Boolean.valueOf(properties.getProperty("http.enable"))) {
@@ -264,6 +265,14 @@ public class ServerManager {
                     pipeline.addLast("objectDecoder", new Gps103ProtocolDecoder(ServerManager.this));
                 }
             });
+            serverList.add(new TrackerServer(this, new ConnectionlessBootstrap(), protocol) {
+                @Override
+                protected void addSpecificHandlers(ChannelPipeline pipeline) {
+                    pipeline.addLast("stringDecoder", new StringDecoder());
+                    pipeline.addLast("stringEncoder", new StringEncoder());
+                    pipeline.addLast("objectDecoder", new Gps103ProtocolDecoder(ServerManager.this));
+                }
+            });
         }
     }
 
@@ -275,6 +284,14 @@ public class ServerManager {
                     byte delimiter[] = { (byte) ')' };
                     pipeline.addLast("frameDecoder",
                             new DelimiterBasedFrameDecoder(1024, ChannelBuffers.wrappedBuffer(delimiter)));
+                    pipeline.addLast("stringDecoder", new StringDecoder());
+                    pipeline.addLast("stringEncoder", new StringEncoder());
+                    pipeline.addLast("objectDecoder", new Tk103ProtocolDecoder(ServerManager.this));
+                }
+            });
+            serverList.add(new TrackerServer(this, new ConnectionlessBootstrap(), protocol) {
+                @Override
+                protected void addSpecificHandlers(ChannelPipeline pipeline) {
                     pipeline.addLast("stringDecoder", new StringDecoder());
                     pipeline.addLast("stringEncoder", new StringEncoder());
                     pipeline.addLast("objectDecoder", new Tk103ProtocolDecoder(ServerManager.this));
@@ -1234,6 +1251,20 @@ public class ServerManager {
                 protected void addSpecificHandlers(ChannelPipeline pipeline) {
                     pipeline.addLast("frameDecoder", new OrionFrameDecoder());
                     pipeline.addLast("objectDecoder", new OrionProtocolDecoder(ServerManager.this));
+                }
+            };
+            server.setEndianness(ByteOrder.LITTLE_ENDIAN);
+            serverList.add(server);
+        }
+    }
+
+    private void initRitiServer(String protocol) throws SQLException {
+        if (isProtocolEnabled(properties, protocol)) {
+            TrackerServer server = new TrackerServer(this, new ServerBootstrap(), protocol) {
+                @Override
+                protected void addSpecificHandlers(ChannelPipeline pipeline) {
+                    pipeline.addLast("frameDecoder", new LengthFieldBasedFrameDecoder(1024, 105, 2, 3, 0));
+                    pipeline.addLast("objectDecoder", new RitiProtocolDecoder(ServerManager.this));
                 }
             };
             server.setEndianness(ByteOrder.LITTLE_ENDIAN);
