@@ -1,4 +1,10 @@
-traccar (0.2.2) UNRELEASED; urgency=medium
+traccar (0.2.3) unstable; urgency=low
+
+  * Updated traccar package.
+
+ -- Florent Clairambault <florent@xps>  Fri, 12 Sep 2014 02:51:21 +0200
+
+traccar (0.2.2) unstable; urgency=low
 
   * Simplified UFW rules.
 

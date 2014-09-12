@@ -76,7 +76,7 @@ public class M2MPDataManager implements DataManager {
     }
 
     @Override
-    public void updateLatestPosition(Long deviceId, Long positionId) throws Exception {
+    public void updateLatestPosition(Position position, Long positionId) throws Exception {
         // Let's just not do it
     }
 }

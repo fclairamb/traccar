@@ -1,10 +1,10 @@
-all: $(TRACCAR_SERVER)
-
 TRACKER_SERVER=target/tracker-server.jar
+SOURCES=$(shell find -name "*.java")
+PACKAGE_FILES=$(shell find package)
 
-sources=$(shell find -name *.java)
+all: $(TRACKER_SERVER)
 
-$(TRACKER_SERVER): $(sources) pom.xml
+$(TRACKER_SERVER): $(SOURCES) pom.xml
 	mvn verify
 	mvn dependency:copy-dependencies
 
